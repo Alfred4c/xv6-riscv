@@ -1,4 +1,5 @@
 // Saved registers for kernel context switches.
+//这个结构体保存了在内核上下文切换时需要保存的寄存器状态
 struct context {
   uint64 ra;
   uint64 sp;
@@ -40,6 +41,8 @@ extern struct cpu cpus[NCPU];
 // the trapframe includes callee-saved user registers like s0-s11 because the
 // return-to-user path via usertrapret() doesn't return through
 // the entire kernel call stack.
+//这个结构体用于在中断或异常发生时保存CPU的状态。当发生一个中断或异常时，CPU会将当前的执行状态保存到这个结构体中，
+//然后跳转到相应的中断处理函数中。它包括了用户程序的一些寄存器状态、内核堆栈的位置以及一些其他必要的信息。
 struct trapframe {
   /*   0 */ uint64 kernel_satp;   // kernel page table
   /*   8 */ uint64 kernel_sp;     // top of process's kernel stack
