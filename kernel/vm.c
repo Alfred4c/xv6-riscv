@@ -16,6 +16,7 @@ extern char etext[];  // kernel.ld sets this to end of kernel code.
 extern char trampoline[]; // trampoline.S
 
 // Make a direct-map page table for the kernel.
+//创建内核页表并映射
 pagetable_t
 kvmmake(void)
 {
@@ -82,6 +83,7 @@ kvminithart()
 //   21..29 -- 9 bits of level-1 index.
 //   12..20 -- 9 bits of level-0 index.
 //    0..11 -- 12 bits of byte offset within the page.
+// 在页表 pagetable 中查找虚拟地址 va 对应的页表项，并返回该页表项的地址
 pte_t *
 walk(pagetable_t pagetable, uint64 va, int alloc)
 {
@@ -139,6 +141,7 @@ kvmmap(pagetable_t kpgtbl, uint64 va, uint64 pa, uint64 sz, int perm)
 // physical addresses starting at pa. va and size might not
 // be page-aligned. Returns 0 on success, -1 if walk() couldn't
 // allocate a needed page-table page.
+//创建虚拟地址到物理地址的页表项
 int
 mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm)
 {
